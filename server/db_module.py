@@ -36,7 +36,6 @@ class Prize(Base):
     description = Column(String)
     promo_id = Column(BigInteger, ForeignKey('promo.id'))
     promo = relationship("Promo", back_populates="prizes")
-    result = relationship("Result", back_populates="prize")
 
     def __init__(
         self, name, description
