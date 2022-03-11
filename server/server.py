@@ -87,7 +87,7 @@ def delete_prize_from_promo(promo_id, prize_id):
     return "ok", 200
 
 
-@app.route('/promo/<id>/ruffle', methods=["POST"])
+@app.route('/promo/<id>/raffle', methods=["POST"])
 def do_ruffle(id):
     assert id == request.view_args['id']
     session = session_factory()
