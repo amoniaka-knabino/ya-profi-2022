@@ -81,19 +81,6 @@ class Promo(Base):
             self.description = description
 
 
-class Result(Base):
-    __tablename__ = 'result'
-
-    prize = relationship("Prize", back_populates="result", uselist=False)
-    participant = relationship("Participant", back_populates="result", uselist=False)
-
-
-    def __init__(
-        self, ebs_id, name, surname, patronymic, email,
-        birth_day, birth_month, birth_year
-    ):
-        pass
-
 def add_promo_to_db(
     session,
     name, description
