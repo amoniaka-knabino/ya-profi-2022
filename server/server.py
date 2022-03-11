@@ -43,6 +43,7 @@ def promo_by_id(id):
         if not name:
             return "error", 400
         edit_promo(session, id, description)
+        return "ok"
     if request.method == "DELETE":
         delete_promo(session, id)
         return "ok", 200
