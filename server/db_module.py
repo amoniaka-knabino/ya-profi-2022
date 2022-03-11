@@ -38,10 +38,9 @@ class Prize(Base):
     promo = relationship("Promo", back_populates="prizes")
 
     def __init__(
-        self, name, description
+        self, description
     ):
         self.id = generate_id()
-        self.name = name
         self.description = description
 
 class Participant(Base):
