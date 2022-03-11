@@ -55,7 +55,7 @@ def promo_by_id_participant(id):
     if not name:
         return "error", 400
     p_id = add_participant(session, id, name)
-    return p_id, 200
+    return jsonify(p_id), 200
 
 
 @app.route('/promo/<promo_id>/participant/<part_id>', methods=["DELETE"])
@@ -74,7 +74,7 @@ def promo_by_id_prize(id):
     if not desc:
         return "error", 400
     p_id = add_prize(session, id, desc)
-    return p_id, 200
+    return jsonify(p_id), 200
 
 
 @app.route('/promo/<promo_id>/participant/<prize_id>', methods=["DELETE"])
