@@ -11,6 +11,7 @@ from db_module import (
     delete_prize,
     session_factory,
     can_ruffle,
+    ruffle
 )
 
 app = Flask(__name__)
@@ -77,7 +78,7 @@ def promo_by_id_prize(id):
 
 
 @app.route('/promo/<promo_id>/participant/<prize_id>', methods=["DELETE"])
-def delete_participant_from_promo(promo_id, prize_id):
+def delete_prize_from_promo(promo_id, prize_id):
     assert promo_id == request.view_args['promo_id']
     assert prize_id == request.view_args['prize_id']
     session = session_factory()
@@ -86,12 +87,12 @@ def delete_participant_from_promo(promo_id, prize_id):
 
 
 @app.route('/promo/<id>/ruffle', methods=["POST"])
-def promo_by_id_prize(id):
+def do_ruffle(id):
     assert id == request.view_args['id']
     session = session_factory()
     if not can_ruffle(session, id):
         return "conflict", 409
-    return p_id, 200
+    return jsonify(ruffle(session, id)), 200
 
 
 if __name__ == "__main__":
