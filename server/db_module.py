@@ -157,7 +157,7 @@ def add_prize(session, id, descr):
     session.commit()
     return prize.id
 
-def delete_participant(session, id):
+def delete_prize(session, id):
     session.query(Prize).filter(Prize.id == id).delete()
     session.commit()
 
