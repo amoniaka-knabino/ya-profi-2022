@@ -115,7 +115,7 @@ def get_promo_by_id(session, id):
         for pr in p.prizes:
             dikt["prizes"].append({
                 "id" : pr.id,
-                "description": pr.desription,
+                "description": pr.description,
             })
         for par in p.participants:
             dikt["participants"].append({
