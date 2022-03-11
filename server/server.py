@@ -24,7 +24,7 @@ def promo():
         name = request.json.get('name')
         description = request.json.get('description')
         promo_id = add_promo_to_db(session, name, description)
-        return promo_id, 200
+        return jsonify(promo_id), 200
     if request.method == "GET":
         session = session_factory()
         promos = get_promos_dict_list(session)
