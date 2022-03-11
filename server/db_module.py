@@ -170,7 +170,7 @@ def ruffle(session, id):
     # can make it better
     for i in range(len(promo.prizes)):
         part = promo.participants[i]
-        prize = promo.prixes[i]
+        prize = promo.prizes[i]
         ans.append({
             "winner": {
                 "id": part.id,
