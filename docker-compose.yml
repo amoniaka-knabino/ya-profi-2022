@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  loyalty:
+    build: 
+      context: ./server/
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+    restart: always
+    stop_grace_period: 10s
+    ports:
+      - "8080:8080"
+  postgres2:
+      image: postgres:13.1-alpine
+      environment:
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+      volumes:
+        - postgres-data-2:/var/lib/postgresql/data
+      restart: always
+      ports:
+        - "6237:5432"
+
+
+volumes:
+  postgres-data-2:
