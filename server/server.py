@@ -42,7 +42,7 @@ def promo_by_id(id):
         description = request.json.get('description')
         if not name:
             return "error", 400
-        edit_promo(session, id, description)
+        edit_promo(session, id, name, description)
         return "ok"
     if request.method == "DELETE":
         delete_promo(session, id)
