@@ -160,7 +160,7 @@ def delete_prize(session, id):
 
 def can_ruffle(session, id):
     promo = session.query(Promo).where(Promo.id == id).all()[0]
-    if len(promo.participants) == len(promo.prozes):
+    if len(promo.participants) == len(promo.prizes):
         return True
     return False
 
