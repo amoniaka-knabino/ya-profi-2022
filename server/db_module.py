@@ -126,7 +126,7 @@ def get_promo_by_id(session, id):
         ans.append(dikt)
     return ans[-1]
 
-def edit_promo(session, id, name, desc):
+def edit_promo(session, id, name, desc=None):
     promos = session.query(Promo).where(Promo.id == id).all()
     promo = promos[0]
     promo.name = name
