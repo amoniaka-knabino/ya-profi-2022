@@ -7,8 +7,10 @@ from db_module import (
     delete_promo,
     add_participant,
     delete_participant,
+    can_delete_participant,
     add_prize,
     delete_prize,
+    can_delete_prize,
     session_factory,
     can_ruffle,
     ruffle
@@ -30,6 +32,7 @@ def promo():
         promos = get_promos_dict_list(session)
         return jsonify(promos), 200
 
+
 @app.route('/promo/<id>', methods=["GET", "PUT", "DELETE"])
 def promo_by_id(id):
     assert id == request.view_args['id']
@@ -48,6 +51,7 @@ def promo_by_id(id):
         delete_promo(session, id)
         return "ok", 200
 
+
 @app.route('/promo/<id>/participant', methods=["POST"])
 def promo_by_id_participant(id):
     assert id == request.view_args['id']
@@ -64,8 +68,11 @@ def delete_participant_from_promo(promo_id, part_id):
     assert promo_id == request.view_args['promo_id']
     assert part_id == request.view_args['part_id']
     session = session_factory()
+    if not can_delete_participant(session, id):
+        return jsonify("there is no such entity"), 400
     delete_participant(session, part_id)
     return "ok", 200
+
 
 @app.route('/promo/<id>/prize', methods=["POST"])
 def promo_by_id_prize(id):
@@ -83,6 +90,8 @@ def delete_prize_from_promo(promo_id, prize_id):
     assert promo_id == request.view_args['promo_id']
     assert prize_id == request.view_args['prize_id']
     session = session_factory()
+    if not can_delete_prize(session, id):
+        return jsonify("there is no such entity"), 400
     delete_prize(session, prize_id)
     return "ok", 200
 

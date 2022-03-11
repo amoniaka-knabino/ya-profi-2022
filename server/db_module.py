@@ -14,7 +14,8 @@ DB_NAME = os.getenv('POSTGRES_DB')
 DB_USER = os.getenv('POSTGRES_USER')
 DB_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 
-engine = create_engine((f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"), echo=True)
+engine = create_engine(
+    (f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"), echo=True)
 # use session_factory() to get a new Session
 _SessionFactory = sessionmaker(bind=engine)
 
@@ -29,6 +30,7 @@ def session_factory():
     Base.metadata.create_all(engine)
     return _SessionFactory()
 
+
 class Prize(Base):
     __tablename__ = 'prize'
 
@@ -42,6 +44,7 @@ class Prize(Base):
     ):
         self.id = generate_id()
         self.description = description
+
 
 class Participant(Base):
     __tablename__ = 'participant'
@@ -58,7 +61,6 @@ class Participant(Base):
         self.name = name
 
 
-
 class Promo(Base):
     __tablename__ = 'promo'
 
@@ -67,7 +69,6 @@ class Promo(Base):
     description = Column(String)
     prizes = relationship("Prize")
     participants = relationship("Participant")
-
 
     def __init__(
         self, name, description
@@ -101,6 +102,7 @@ def get_promos_dict_list(session):
         })
     return ans
 
+
 def get_promo_by_id(session, id):
     promos = session.query(Promo).where(Promo.id == id).all()
     ans = []
@@ -114,7 +116,7 @@ def get_promo_by_id(session, id):
         }
         for pr in p.prizes:
             dikt["prizes"].append({
-                "id" : pr.id,
+                "id": pr.id,
                 "description": pr.description,
             })
         for par in p.participants:
@@ -125,6 +127,7 @@ def get_promo_by_id(session, id):
         ans.append(dikt)
     return ans[-1]
 
+
 def edit_promo(session, id, name, desc=None):
     promos = session.query(Promo).where(Promo.id == id).all()
     promo = promos[0]
@@ -132,9 +135,11 @@ def edit_promo(session, id, name, desc=None):
     promo.description = desc
     session.commit()
 
+
 def delete_promo(session, id):
     session.query(Promo).filter(Promo.id == id).delete()
     session.commit()
+
 
 def add_participant(session, id, name):
     promo = session.query(Promo).where(Promo.id == id).all()[0]
@@ -143,9 +148,16 @@ def add_participant(session, id, name):
     session.commit()
     return participant.id
 
+
 def delete_participant(session, id):
     session.query(Participant).filter(Participant.id == id).delete()
     session.commit()
+
+
+def can_delete_participant(session, id):
+    parts = session.query(Participant).where(Participant.id == id).all()
+    return len(parts) > 0
+
 
 def add_prize(session, id, descr):
     promo = session.query(Promo).where(Promo.id == id).all()[0]
@@ -154,15 +166,23 @@ def add_prize(session, id, descr):
     session.commit()
     return prize.id
 
+
+def can_delete_prize(session, id):
+    prizes = session.query(Prize).where(Prize.id == id).all()
+    return len(prizes) > 0
+
+
 def delete_prize(session, id):
     session.query(Prize).filter(Prize.id == id).delete()
     session.commit()
+
 
 def can_ruffle(session, id):
     promo = session.query(Promo).where(Promo.id == id).all()[0]
     if len(promo.participants) == len(promo.prizes):
         return True
     return False
+
 
 def ruffle(session, id):
     promo = session.query(Promo).where(Promo.id == id).all()[0]
