@@ -78,7 +78,7 @@ def promo_by_id_prize(id):
     return jsonify(p_id), 200
 
 
-@app.route('/promo/<promo_id>/participant/<prize_id>', methods=["DELETE"])
+@app.route('/promo/<promo_id>/prize/<prize_id>', methods=["DELETE"])
 def delete_prize_from_promo(promo_id, prize_id):
     assert promo_id == request.view_args['promo_id']
     assert prize_id == request.view_args['prize_id']
