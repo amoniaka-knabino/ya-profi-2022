@@ -68,7 +68,7 @@ def delete_participant_from_promo(promo_id, part_id):
     assert promo_id == request.view_args['promo_id']
     assert part_id == request.view_args['part_id']
     session = session_factory()
-    if not can_delete_participant(session, id):
+    if not can_delete_participant(session, part_id):
         return jsonify("there is no such entity"), 400
     delete_participant(session, part_id)
     return "ok", 200
@@ -90,7 +90,7 @@ def delete_prize_from_promo(promo_id, prize_id):
     assert promo_id == request.view_args['promo_id']
     assert prize_id == request.view_args['prize_id']
     session = session_factory()
-    if not can_delete_prize(session, id):
+    if not can_delete_prize(session, prize_id):
         return jsonify("there is no such entity"), 400
     delete_prize(session, prize_id)
     return "ok", 200
